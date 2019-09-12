@@ -2339,6 +2339,8 @@
         decodeAudioData(xhr.response, self);
       };
       xhr.onerror = function() {
+        self._emit('loaderror', null, 'Xhr error.');
+
         // If there is an error, switch to HTML5 Audio.
         if (self._webAudio) {
           self._html5 = true;
