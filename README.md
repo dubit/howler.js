@@ -285,6 +285,12 @@ Fires when the current sound finishes fading in/out. The first parameter is the 
 #### onunlock `Function`
 Fires when audio has been automatically unlocked through a touch/click event.
 
+#### ontimeouterror `Function`
+Fires when the XMLHttpRequest has timed out
+
+#### onloaderror `Function`
+Fires when the XMLHttpRequest is aborted
+
 
 ### Methods
 #### play([sprite/id])

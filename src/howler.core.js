@@ -571,6 +571,7 @@
      * @return {Howl}
      */
     init: function(o) {
+
       var self = this;
 
       // If we don't have an AudioContext created yet, run the setup.
@@ -609,6 +610,8 @@
       self._onfade = o.onfade ? [{fn: o.onfade}] : [];
       self._onload = o.onload ? [{fn: o.onload}] : [];
       self._onloaderror = o.onloaderror ? [{fn: o.onloaderror}] : [];
+      self._ontimeouterror = o.ontimeouterror ? [{fn: o.ontimeouterror}] : [];
+      self._onabort = o.onabort ? [{fn: o.onabort}] : [];
       self._onplayerror = o.onplayerror ? [{fn: o.onplayerror}] : [];
       self._onpause = o.onpause ? [{fn: o.onpause}] : [];
       self._onplay = o.onplay ? [{fn: o.onplay}] : [];
@@ -2423,6 +2426,7 @@
 
         decodeAudioData(xhr.response, self);
       };
+
       xhr.onerror = function() {
         self._emit('loaderror', null, 'Xhr error.');
 
@@ -2435,8 +2439,17 @@
           self.load();
         }
       };
+
+      xhr.ontimeout = function () {
+        self._emit('timeouterror', null, 'XHR timeout.');
+      };
+
+      xhr.onabort = function () {
+        self._emit('abort', null, 'XHR request aborted.');
+      };
+
       safeXhrSend(xhr);
-    }
+    };
   };
 
   /**
